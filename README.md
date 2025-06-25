@@ -1,139 +1,123 @@
 
-# E-Commerce Backend API (Spring Boot)
+# 🛒 Ecommerce Backend
 
-A robust and scalable RESTful API for an e-commerce platform built using Spring Boot, Spring Security, JWT, and Spring Data JPA. It supports complete backend functionality for user authentication, product management, category management, shopping cart, orders, and address handling.
+A full-featured **Spring Boot** backend application for an eCommerce platform. This project is designed with a clean architecture, proper use of DTOs, controller-service-repo layers, and integrates essential modules like authentication, product management, cart operations, and order processing.
 
+---
 
-## Tech Stack
+## 🚀 Features
 
-**Language:** Java21
+- ✅ User Registration & Login (JWT-based authentication)
+- ✅ Role-based access control (Admin/User)
+- ✅ Product & Category Management
+- ✅ Cart Management
+- ✅ Order Placement
+- ✅ Address Management
+- ✅ RESTful APIs
+- ✅ Global Exception Handling
+- ✅ Clean DTO structure for API responses
+- ✅ Environment-based configuration
 
-**Server:** Spring Boot,Spring Security,JWT (JSON Web Tokens) for stateless authentication
+---
 
-**Database:** PostgreSQL (for relational data storage),Spring Data JPA (for ORM and database interaction)
+## 🛠️ Technologies Used
 
-**Other Technologies:** Lombok (to reduce boilerplate code), Swagger / Postman (for API testing and documentation)
+- Java 17+
+- Spring Boot
+- Spring Security (JWT)
+- Hibernate / JPA
+- PostgreSQL (can be swapped with H2/MySQL)
+- Maven
 
+---
 
+## 🧩 Module Overview
 
-# 🚀 Features
+### 🧑 Authentication
+- Signup/Login with JWT generation
+- Secured endpoints using filters
 
-🔐 Authentication & Authorization
-- User SignUp & SignIn with JWT-based security.
-- Role-based access control: USER, ADMIN, and SELLER.
-- Secure password encryption using BCrypt.
-- JWT cookie support with login/logout endpoints.
+### 📦 Products & Categories
+- Add/Update/Delete/View products (admin)
+- View products & categories (user)
 
-📦 Address Management
+### 🛒 Cart
+- Add to cart / Remove from cart
+- View cart for current user
 
-- Create, update, delete addresses.
-- Fetch all addresses or user-specific addresses.
+### 📬 Address
+- CRUD operations on user addresses
 
-🛒 Cart Management
+### 📦 Orders
+- Place an order for items in cart
+- View all past orders
 
-- Add products to cart.
+---
 
-- View or update user cart.
+## 📁 Folder Structure
 
-- Remove items from the cart.
+```
+src/
+└── main/
+    ├── java/com/project/ecommercebackend/
+    │   ├── config/               # Security and app configuration
+    │   ├── controller/           # REST controllers for various modules
+    │   ├── dto/                  # DTOs for request/response payloads
+    │   ├── model/                # Entity models
+    │   ├── repository/           # JPA repositories
+    │   ├── service/              # Business logic layer
+    │   └── EcommerceBackendApplication.java
+    └── resources/
+        ├── application.properties
+```
 
-🛍️ Product Management
+---
 
-- Admin can create, update, and delete products.
+## 🖥️ Getting Started
 
-- Search products by category or keyword.
+### 1. Clone the repository
 
-- Upload/update product images.
+```bash
+git clone https://github.com/swadesh-231/EcommerceBackend.git
+cd EcommerceBackend
+```
 
-🏷️ Category Management
+### 2. Configure MySQL Database
 
+Update your `application.properties`:
 
-- Admin can create, update, and delete categories.
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/ecommerce_db
+spring.datasource.username=yourUsername
+spring.datasource.password=yourPassword
+spring.jpa.hibernate.ddl-auto=update
+```
 
-- Paginated and sortable category listing.
+### 3. Run the Application
 
-📦 Order Management
+```bash
+./mvnw spring-boot:run
+```
 
-- Place orders with payment and shipping details.
+Access the APIs on: `http://localhost:8080/api/...`
 
-- Handle multiple payment gateways (credit card, PayPal, etc.).
-
-
-
-
-##  API Endpoints
-
-#### 🔐 AuthController (/api/auth)
-
-
-| Method | Endpoint    | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `POST`      | `/signup` | 	Register new user |
-| `POST` | `/signin` | 	Authenticate user and get JWT |
-| `GET`    || `/username`    || Get current user's username |
-| `GET`    || `/user`    || Get current user'sinfo         |
-| `POST`   || `/signout`     || Logout and clear JWT cookie   |
-
-
-
-#### 📦 AddressController (/api/addresses)
-
-| Method | Endpoint    | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| POST   || /                      || Add new address                 |
-| GET    || /                      || Get all addresses (admin/debug)|
-| GET    || /{id}                  || Get address by ID               |
-| GET    || /users/addresses       || Get current user's addresses    |
-| PUT    || /{id}                  || Update address by ID            |
-| DELETE || /{id}                  || Delete address by ID            |
-
-
-
-#### 🛒 CartController (/api/carts)
-
-
-| Method | Endpoint    | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| POST   || /products/{productId}/quantity/{quantity}              || Add product to cart                |
-| GET    || /                                                      || Get all carts (admin/debug)        |
-| GET    || /users/cart                                            || Get current user's cart            |
-| PUT    || /products/{productId}/quantity/{operation}             || Increment/decrement quantity       |
-| DELETE || /{cartId}/product/{productId}                          || Remove product from cart           |
-
-
-
-
-
-#### 🏷️CategoryController (/api/public/categories)
-
-
-| Method | Endpoint    | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| GET    || /                                    || Get paginated & sorted categories |
-| POST   || /                                    || Create a new category          |
-| PUT    || /{categoryId}                        || Update category                |
-| DELETE || /api/admin/categories/{id}           || Delete category (admin only)   |
+---
 
 
 
-#### 🛍️ ProductController (/api/public/products)
+## 🤝 Contributing
 
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-| Method | Endpoint    | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| POST   || /api/admin/categories/{id}/product                   || Add product to a category           |
-| GET    || /                                                    || Get all products                    |
-| GET    || /keyword/{keyword}                                   || Search products by keyword          |
-| GET    || /categories/{id}/products                            || Get products by category            |
-| PUT    || /api/admin/products/{id}                             || Update product                      |
-| DELETE || /api/admin/products/{id}                             || Delete product                      |
-| PUT    || /products/{id}/image                                 || Upload product image      
+---
 
+## 📬 Contact
 
+**Swadesh Chatterjee**  
+📧 [swadeshchatterjee512@gmail.com]  
+🔗 [LinkedIn](https://www.linkedin.com/in/swadeshchatterjee/)  
+🔗 [GitHub](https://github.com/swadesh-231)
 
-#### 📦 OrderController (/api/order)
+---
 
-
-| Method | Endpoint    | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| POST   || /users/payments/{paymentMethod}         || Place order with payment info    |     
+> ⭐ If you liked this project, consider giving it a star on GitHub!
