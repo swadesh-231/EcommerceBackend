@@ -1,13 +1,14 @@
 package com.project.ecommercebackend.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "order_items")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +27,7 @@ public class OrderItem {
     private Order order;
 
     private Integer quantity;
-    private double discount;
-    private double orderedProductPrice;
+    private java.math.BigDecimal discount;
+    private java.math.BigDecimal orderedProductPrice;
 
 }

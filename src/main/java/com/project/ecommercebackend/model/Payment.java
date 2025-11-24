@@ -1,16 +1,17 @@
 package com.project.ecommercebackend.model;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "payments")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
@@ -33,7 +34,7 @@ public class Payment {
     private String pgName;
 
     public Payment(String paymentMethod, String pgPaymentId, String pgStatus,
-                   String pgResponseMessage, String pgName) {
+            String pgResponseMessage, String pgName) {
         this.paymentMethod = paymentMethod;
         this.pgPaymentId = pgPaymentId;
         this.pgStatus = pgStatus;
@@ -41,4 +42,3 @@ public class Payment {
         this.pgName = pgName;
     }
 }
-

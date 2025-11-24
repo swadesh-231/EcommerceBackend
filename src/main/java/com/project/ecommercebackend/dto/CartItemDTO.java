@@ -12,7 +12,7 @@ public class CartItemDTO {
     private CartDTO cart;
     private ProductDTO product;
     private Integer quantity;
-    private Double discountedPrice;
-    private Double productPrice;
+    private java.math.BigDecimal discountedPrice;
+    private java.math.BigDecimal productPrice;
 
 }

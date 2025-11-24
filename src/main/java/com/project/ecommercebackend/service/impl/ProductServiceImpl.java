@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-
 @Service
 public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
@@ -32,17 +31,18 @@ public class ProductServiceImpl implements ProductService {
     @Value("${project.image")
     private String path;
 
-    public ProductServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository, ModelMapper modelMapper,FileService fileService) {
+    public ProductServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository,
+            ModelMapper modelMapper, FileService fileService) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.fileService = fileService;
     }
+
     @Override
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Category", "categoryId", categoryId));
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
 
         boolean isProductNotPresent = true;
         List<Product> products = category.getProducts();
@@ -56,8 +56,8 @@ public class ProductServiceImpl implements ProductService {
             Product product = modelMapper.map(productDTO, Product.class);
             product.setImageUrl("default.png");
             product.setCategory(category);
-            double specialPrice = product.getPrice() -
-                    ((product.getDiscount() * 0.01) * product.getPrice());
+            java.math.BigDecimal specialPrice = product.getPrice().subtract(
+                    (product.getDiscount().multiply(new java.math.BigDecimal("0.01"))).multiply(product.getPrice()));
             product.setSpecialPrice(specialPrice);
             Product savedProduct = productRepository.save(product);
             return modelMapper.map(savedProduct, ProductDTO.class);
@@ -79,11 +79,12 @@ public class ProductServiceImpl implements ProductService {
 
         return getProductResponse(pageProducts, products);
     }
+
     @Override
-    public ProductResponse searchByCategory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+    public ProductResponse searchByCategory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy,
+            String sortOrder) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Category", "categoryId", categoryId));
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
 
         Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")
                 ? Sort.by(sortBy).ascending()
@@ -93,11 +94,12 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> products = pageProducts.getContent();
 
-        if(products.isEmpty()){
+        if (products.isEmpty()) {
             throw new APIException(category.getCategoryName() + " category does not have any products");
         }
         return getProductResponse(pageProducts, products);
     }
+
     private ProductResponse getProductResponse(Page<Product> pageProducts, List<Product> products) {
         List<ProductDTO> productDTOS = products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))
@@ -112,8 +114,10 @@ public class ProductServiceImpl implements ProductService {
         productResponse.setLast(pageProducts.isLast());
         return productResponse;
     }
+
     @Override
-    public ProductResponse searchProductByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+    public ProductResponse searchProductByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortBy,
+            String sortOrder) {
         Sort sort = sortOrder.equalsIgnoreCase("asc")
                 ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
@@ -137,8 +141,7 @@ public class ProductServiceImpl implements ProductService {
                 productPage.getSize(),
                 productPage.getTotalElements(),
                 productPage.getTotalPages(),
-                productPage.isLast()
-        );
+                productPage.isLast());
     }
 
     @Override
@@ -150,7 +153,8 @@ public class ProductServiceImpl implements ProductService {
         productFromDb.setQuantity(productDTO.getQuantity());
         productFromDb.setDiscount(productDTO.getDiscount());
         productFromDb.setPrice(productDTO.getPrice());
-        Double specialPrice = productDTO.getPrice() - ((productDTO.getDiscount() * 0.01) * productDTO.getPrice());
+        java.math.BigDecimal specialPrice = productDTO.getPrice().subtract(
+                (productDTO.getDiscount().multiply(new java.math.BigDecimal("0.01"))).multiply(productDTO.getPrice()));
         productFromDb.setSpecialPrice(specialPrice);
         Product savedProduct = productRepository.save(productFromDb);
         return modelMapper.map(savedProduct, ProductDTO.class);

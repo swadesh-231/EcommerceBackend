@@ -1,6 +1,5 @@
 package com.project.ecommercebackend.exception;
 
-
 import com.project.ecommercebackend.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,25 +14,43 @@ import java.util.Map;
 @RestControllerAdvice
 public class MyGlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,String>> myMethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        Map<String,String> response = new HashMap<>();
+    public ResponseEntity<Map<String, String>> myMethodArgumentNotValidExceptionHandler(
+            MethodArgumentNotValidException e) {
+        Map<String, String> response = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach((error) -> {
             String errorMessage = error.getDefaultMessage();
-            String fieldName = ((FieldError)error).getField();
+            String fieldName = ((FieldError) error).getField();
             response.put(fieldName, errorMessage);
         });
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse> myResourceNotFoundException(ResourceNotFoundException e) {
         String message = e.getMessage();
-        ApiResponse apiResponse = new ApiResponse(message,false);
+        ApiResponse apiResponse = new ApiResponse(message, false);
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(APIException.class)
     public ResponseEntity<ApiResponse> myAPIException(APIException e) {
         String message = e.getMessage();
-        ApiResponse apiResponse = new ApiResponse(message,false);
+        ApiResponse apiResponse = new ApiResponse(message, false);
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse> myConstraintViolationException(
+            jakarta.validation.ConstraintViolationException e) {
+        String message = e.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse> myGenericException(Exception e) {
+        String message = e.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
+        return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

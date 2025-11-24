@@ -16,8 +16,7 @@ public class OrderDTO {
     private List<OrderItemDTO> orderItems;
     private LocalDate orderDate;
     private PaymentDTO payment;
-    private Double totalAmount;
+    private java.math.BigDecimal totalAmount;
     private String orderStatus;
     private Long addressId;
 }
-

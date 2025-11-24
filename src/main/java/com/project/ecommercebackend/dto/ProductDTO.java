@@ -13,7 +13,7 @@ public class ProductDTO {
     private String imageUrl;
     private String productDescription;
     private Integer quantity;
-    private Double price;
-    private Double discount;
-    private Double specialPrice;
+    private java.math.BigDecimal price;
+    private java.math.BigDecimal discount;
+    private java.math.BigDecimal specialPrice;
 }

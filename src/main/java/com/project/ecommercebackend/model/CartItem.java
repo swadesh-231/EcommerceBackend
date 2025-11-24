@@ -2,11 +2,13 @@ package com.project.ecommercebackend.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "cart_items")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +26,6 @@ public class CartItem {
     private Product product;
 
     private Integer quantity;
-    private double discount;
-    private double productPrice;
+    private java.math.BigDecimal discount;
+    private java.math.BigDecimal productPrice;
 }

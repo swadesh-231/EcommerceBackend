@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class CartDTO {
     private Long cartId;
-    private Double totalPrice = 0.0;
+    private java.math.BigDecimal totalPrice = java.math.BigDecimal.ZERO;
     private List<ProductDTO> products = new ArrayList<>();
 }
