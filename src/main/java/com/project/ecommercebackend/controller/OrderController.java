@@ -1,39 +1,37 @@
 package com.project.ecommercebackend.controller;
 
-import com.project.ecommercebackend.dto.OrderDTO;
-import com.project.ecommercebackend.dto.OrderRequestDTO;
+import com.project.ecommercebackend.dto.request.OrderPlaceRequest;
+import com.project.ecommercebackend.dto.response.OrderResponse;
 import com.project.ecommercebackend.service.OrderService;
 import com.project.ecommercebackend.utils.AuthUtil;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
     private final AuthUtil authUtil;
 
-    public OrderController(OrderService orderService, AuthUtil authUtil) {
-        this.orderService = orderService;
-        this.authUtil = authUtil;
-    }
-
     @PostMapping("/order/users/payments/{paymentMethod}")
-    public ResponseEntity<OrderDTO> orderProducts(
+    public ResponseEntity<OrderResponse> orderProducts(
             @PathVariable String paymentMethod,
-            @RequestBody OrderRequestDTO orderRequestDTO) {
+            @Valid @RequestBody OrderPlaceRequest request) {
 
         String emailId = authUtil.loggedInEmail();
-        OrderDTO order = orderService.placeOrder(
+        OrderResponse order = orderService.placeOrder(
                 emailId,
-                orderRequestDTO.getAddressId(),
+                request.getAddressId(),
                 paymentMethod,
-                orderRequestDTO.getPgName(),
-                orderRequestDTO.getPgPaymentId(),
-                orderRequestDTO.getPgStatus(),
-                orderRequestDTO.getPgResponseMessage()
+                request.getPgName(),
+                request.getPgPaymentId(),
+                request.getPgStatus(),
+                request.getPgResponseMessage()
         );
 
         return new ResponseEntity<>(order, HttpStatus.CREATED);

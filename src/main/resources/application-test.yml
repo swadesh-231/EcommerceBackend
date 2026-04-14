@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Ecommerce_test
+    username: postgres
+    password: ${DB_PASSWORD:456784}
+    hikari:
+      maximum-pool-size: 3
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+app:
+  jwt:
+    secret: dGVzdC1vbmx5LWtleS1kby1ub3QtdXNlLWluLXByb2R1Y3Rpb24tMTIzNDU2Nzg5MA==
+    expiration-ms: 600000
+
+  seed-data: true
+
+logging:
+  level:
+    com.project.ecommercebackend: DEBUG
+    org.springframework.security: DEBUG

@@ -1,5 +1,4 @@
-package com.project.ecommercebackend.dto;
-
+package com.project.ecommercebackend.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDTO {
-    private Long addressId;
+public class AddressRequest {
 
     @NotBlank(message = "Street name is required")
     @Size(min = 5, message = "Street name must be at least 5 characters")
@@ -37,4 +35,3 @@ public class AddressDTO {
     @Size(min = 5, message = "Pincode must be at least 5 characters")
     private String pincode;
 }
-

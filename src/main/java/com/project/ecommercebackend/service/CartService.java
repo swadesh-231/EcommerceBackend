@@ -1,18 +1,15 @@
 package com.project.ecommercebackend.service;
 
-import com.project.ecommercebackend.dto.CartDTO;
-import jakarta.transaction.Transactional;
+import com.project.ecommercebackend.dto.response.CartResponse;
 
 import java.util.List;
 
 public interface CartService {
-    CartDTO addProductToCart(Long productId, Integer quantity);
-    List<CartDTO> getAllCarts();
-    CartDTO getCart(String emailId, Long cartId);
-    @Transactional
-    CartDTO updateProductQuantityInCart(Long productId, Integer quantity);
-
+    CartResponse addProductToCart(Long productId, Integer quantity);
+    List<CartResponse> getAllCarts();
+    CartResponse getCart(String emailId, Long cartId);
+    CartResponse getLoggedInUserCart();
+    CartResponse updateProductQuantityInCart(Long productId, Integer quantity);
     String deleteProductFromCart(Long cartId, Long productId);
-
     void updateProductInCarts(Long cartId, Long productId);
 }

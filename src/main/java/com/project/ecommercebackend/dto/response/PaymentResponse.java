@@ -1,5 +1,4 @@
-package com.project.ecommercebackend.dto;
-
+package com.project.ecommercebackend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentDTO {
+public class PaymentResponse {
     private Long paymentId;
     private String paymentMethod;
     private String pgPaymentId;

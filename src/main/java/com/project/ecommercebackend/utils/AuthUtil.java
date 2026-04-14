@@ -2,17 +2,17 @@ package com.project.ecommercebackend.utils;
 
 import com.project.ecommercebackend.model.User;
 import com.project.ecommercebackend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class AuthUtil {
-   private final UserRepository userRepository;
-    public AuthUtil(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+
+    private final UserRepository userRepository;
 
     public String loggedInEmail(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -1,20 +1,15 @@
 package com.project.ecommercebackend.service;
 
-import com.project.ecommercebackend.dto.AddressDTO;
-import com.project.ecommercebackend.model.User;
+import com.project.ecommercebackend.dto.request.AddressRequest;
+import com.project.ecommercebackend.dto.response.AddressResponse;
 
 import java.util.List;
 
 public interface AddressService {
-    AddressDTO createAddress(AddressDTO addressDTO, User user);
-
-    List<AddressDTO> getAddresses();
-
-    AddressDTO getAddressesById(Long addressId);
-
-    List<AddressDTO> getUserAddresses(User user);
-
-    AddressDTO updateAddress(Long addressId, AddressDTO addressDTO);
-
+    AddressResponse createAddress(AddressRequest request);
+    List<AddressResponse> getAddresses();
+    AddressResponse getAddressById(Long addressId);
+    List<AddressResponse> getUserAddresses();
+    AddressResponse updateAddress(Long addressId, AddressRequest request);
     String deleteAddress(Long addressId);
 }

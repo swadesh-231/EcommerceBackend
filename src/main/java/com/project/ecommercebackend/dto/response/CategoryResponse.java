@@ -1,6 +1,5 @@
-package com.project.ecommercebackend.dto;
+package com.project.ecommercebackend.dto.response;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDTO {
+public class CategoryResponse {
     private Long categoryId;
-    @NotBlank
     private String categoryName;
 }
